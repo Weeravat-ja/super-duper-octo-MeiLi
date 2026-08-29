@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#111111">
+    <title>My Ball Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="game-container">
+        <h1>🎮 My Ball Game</h1>
+
+        <section class="game-wrap">
+            <canvas id="gameCanvas" width="600" height="600" aria-label="เกมรับลูกบอล"></canvas>
+
+            <div id="startPanel" class="overlay">
+                <div class="panel">
+                    <h2>MY BALL GAME</h2>
+                    <p>รับบอลให้ได้มากที่สุด</p>
+                    <p>A / D หรือปุ่ม ◀ ▶</p>
+                    <button id="startButton">▶ START GAME</button>
+                </div>
+            </div>
+
+            <div id="gameOverPanel" class="overlay hidden">
+                <div class="panel">
+                    <h2>GAME OVER</h2>
+                    <p id="finalScore">Final Score : 0</p>
+                    <p id="finalLevel">Level : 1</p>
+                    <p id="finalMiss">Miss : 3 / 3</p>
+                    <button id="playAgainButton">🔄 PLAY AGAIN</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="controls">
+            <button id="leftButton" aria-label="เลื่อนไปทางซ้าย">◀</button>
+            <button id="restartButton">🔄 Restart</button>
+            <button id="rightButton" aria-label="เลื่อนไปทางขวา">▶</button>
+        </div>
+
+        <p class="help">คอมพิวเตอร์: A / D &nbsp; | &nbsp; เมาส์: เลื่อนบนเกม &nbsp; | &nbsp; มือถือ: ใช้ปุ่ม ◀ ▶</p>
+    </main>
+
+    <script src="game.js"></script>
+</body>
+</html>
