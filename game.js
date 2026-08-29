@@ -8,11 +8,14 @@ const MAX_MISS = 3;
 const SCORE_PER_LEVEL = 50;
 const SPEED_INCREASE = 1.05;
 
-const BASE_PADDLE_SPEED = 5;
-const BASE_BALL_SPEED = 2;
+const BASE_PADDLE_SPEED = 8;
+const BASE_BALL_SPEED = 2.5;
+
+const MAX_PADDLE_SPEED = 30;
+const MAX_BALL_SPEED = 12;
 
 const paddle = {
-    width: 120,
+    width: 140,
     height: 30,
     x: 240,
     y: 520,
@@ -54,11 +57,15 @@ function currentLevel() {
 function updateSpeed() {
     const speedLevel = Math.floor(score / SCORE_PER_LEVEL);
 
-    paddle.speed =
-        BASE_PADDLE_SPEED * Math.pow(SPEED_INCREASE, speedLevel);
+    paddle.speed = Math.min(
+        BASE_PADDLE_SPEED * Math.pow(SPEED_INCREASE, speedLevel),
+        MAX_PADDLE_SPEED
+    );
 
-    ball.speed =
-        BASE_BALL_SPEED * Math.pow(SPEED_INCREASE, speedLevel);
+    ball.speed = Math.min(
+        BASE_BALL_SPEED * Math.pow(SPEED_INCREASE, speedLevel),
+        MAX_BALL_SPEED
+    );
 }
 
 function resetBall() {
