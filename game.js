@@ -99,7 +99,7 @@ function endGame() {
 
     finalScore.textContent = `Final Score : ${score}`;
     finalLevel.textContent = `Level : ${currentLevel()}`;
-    finalMiss.textContent = `Miss : ${missedBall} / ${MAX_MISS}`;
+    finalMiss.textContent = `❤️ : ${MAX_MISS - missedBall}`;
 
     gameOverPanel.classList.remove("hidden");
 }
@@ -141,8 +141,9 @@ function update() {
 
     if (ball.y > SCREEN_H) {
         missedBall++;
+        const missRemaining = MAX_MISS - missedBall;
 
-        if (missedBall >= MAX_MISS) {
+        if (missRemaining === 0) {
             endGame();
         } else {
             resetBall();
@@ -184,7 +185,7 @@ function drawText() {
     ctx.fillText(`Level : ${currentLevel()}`, SCREEN_W / 2, 8);
 
     ctx.textAlign = "right";
-    ctx.fillText(`Miss : ${missedBall} / ${MAX_MISS}`, SCREEN_W - 10, 8);
+    ctx.fillText(`❤️ : ${MAX_MISS - missedBall}`, SCREEN_W - 12, 8);
 }
 
 function draw() {
