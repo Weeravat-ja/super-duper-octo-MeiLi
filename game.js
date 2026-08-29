@@ -185,7 +185,7 @@ function drawText() {
     ctx.fillText(`Level : ${currentLevel()}`, SCREEN_W / 2, 8);
 
     ctx.textAlign = "right";
-    ctx.fillText(`❤️ : ${MAX_MISS - missedBall}`, SCREEN_W - 12, 8);
+    ctx.fillText(`❤️: ${MAX_MISS - missedBall}`, SCREEN_W - 70, 8);
 }
 
 function draw() {
