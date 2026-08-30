@@ -14,6 +14,8 @@ const BASE_BALL_SPEED = 2.5;
 const MAX_PADDLE_SPEED = 20;
 const MAX_BALL_SPEED = 8;
 
+const HEART_CHANCE = 0.05;
+
 const paddle = {
     width: 140,
     height: 30,
@@ -136,27 +138,39 @@ function update() {
     ball.y += ball.speed;
 
     if (collision()) {
+
         if (ball.isHeart) {
+
+            // ❤️ รับหัวใจได้
+            // ลดจำนวน Miss ลง 1
             if (missedBall > 0) {
                 missedBall--;
             }
+
         } else {
+
+            // ⚪ รับบอลปกติ
             score += 10;
             updateSpeed();
         }
+
         resetBall();
     }
 
     if (ball.y > SCREEN_H) {
         if (ball.isHeart) {
-            reaeBall();
+
+            // ❤️ หัวใจตกพื้น ไม่มีผล
+            resetBall();
+
         } else {
+
             missedBall++;
             const missRemaining = MAX_MISS - missedBall;
 
             if (missRemaining === 0) {
                 endGame();
-             } else {
+            } else {
                 resetBall();
             }
         }
@@ -244,7 +258,7 @@ function drawText() {
     ctx.fillText(`Score : ${score}`, 10, 8);
 
     ctx.textAlign = "center";
-    ctx.fillText(`Level : ${currentLevel()}`, SCREEN_W / 2, 8);
+    ctx.fillText(`Level : ${currentLevel()}`, SCREEN_W / 2, 8);   
 
     ctx.textAlign = "right";
     ctx.fillText(`❤️: ${MAX_MISS - missedBall}`, SCREEN_W - 70, 8);
