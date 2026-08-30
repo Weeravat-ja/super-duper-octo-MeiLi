@@ -8,11 +8,11 @@ const MAX_MISS = 3;
 const SCORE_PER_LEVEL = 50;
 const SPEED_INCREASE = 1.05;
 
-const BASE_PADDLE_SPEED = 8;
+const BASE_PADDLE_SPEED = 6;
 const BASE_BALL_SPEED = 2.5;
 
-const MAX_PADDLE_SPEED = 30;
-const MAX_BALL_SPEED = 12;
+const MAX_PADDLE_SPEED = 20;
+const MAX_BALL_SPEED = 8;
 
 const paddle = {
     width: 140,
@@ -26,7 +26,8 @@ const ball = {
     size: 42,
     x: 279,
     y: 0,
-    speed: BASE_BALL_SPEED
+    speed: BASE_BALL_SPEED,
+    isHeart: false
 };
 
 let score = 0;
@@ -71,6 +72,7 @@ function updateSpeed() {
 function resetBall() {
     ball.x = Math.random() * (SCREEN_W - ball.size);
     ball.y = 0;
+    ball.isHeart = Math.random() < HEART_CHANCE;
 }
 
 function resetGame() {
@@ -134,19 +136,29 @@ function update() {
     ball.y += ball.speed;
 
     if (collision()) {
-        score += 10;
-        updateSpeed();
+        if (ball.isHeart) {
+            if (missedBall > 0) {
+                missedBall--;
+            }
+        } else {
+            score += 10;
+            updateSpeed();
+        }
         resetBall();
     }
 
     if (ball.y > SCREEN_H) {
-        missedBall++;
-        const missRemaining = MAX_MISS - missedBall;
-
-        if (missRemaining === 0) {
-            endGame();
+        if (ball.isHeart) {
+            reaeBall();
         } else {
-            resetBall();
+            missedBall++;
+            const missRemaining = MAX_MISS - missedBall;
+
+            if (missRemaining === 0) {
+                endGame();
+             } else {
+                resetBall();
+            }
         }
     }
 }
@@ -162,15 +174,65 @@ function drawPaddle() {
 }
 
 function drawBall() {
+
     const centerX = ball.x + ball.size / 2;
     const centerY = ball.y + ball.size / 2;
     const radius = ball.size / 2;
 
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-    ctx.fillStyle = "#ffffff";
-    ctx.fill();
-    ctx.closePath();
+    if (ball.isHeart) {
+
+        // ❤️ วาดหัวใจสีแดง
+        ctx.save();
+
+        ctx.fillStyle = "#ff0000";
+        ctx.beginPath();
+
+        const x = centerX;
+        const y = centerY;
+
+        ctx.moveTo(x, y + radius * 0.8);
+
+        ctx.bezierCurveTo(
+            x - radius * 1.4,
+            y - radius * 0.1,
+            x - radius * 0.8,
+            y - radius * 1.0,
+            x,
+            y - radius * 0.35
+        );
+
+        ctx.bezierCurveTo(
+            x + radius * 0.8,
+            y - radius * 1.0,
+            x + radius * 1.4,
+            y - radius * 0.1,
+            x,
+            y + radius * 0.8
+        );
+
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.restore();
+
+    } else {
+
+        // ⚪ บอลปกติ
+        ctx.beginPath();
+
+        ctx.arc(
+            centerX,
+            centerY,
+            radius,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle = "#ffffff";
+        ctx.fill();
+
+        ctx.closePath();
+    }
 }
 
 function drawText() {
